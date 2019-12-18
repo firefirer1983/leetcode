@@ -2,22 +2,18 @@ class Solution:
     
     def lengthOfLongestSubstring(self, s: str) -> int:
         h = {}
-        l = []
         max_len = 0
         for i, c in enumerate(s):
             
             if c in h:
                 substr = s[h[c]+1:]
-                # print(substr)
                 length = self.lengthOfLongestSubstring(substr)
-                l.clear()
+                if length > max_len:
+                    max_len = length
+                return max_len
             else:
                 h[c] = i
-                l.append(c)
-                # print(l)
-                length = len(l)
-            if length > max_len:
-                max_len = length
+                max_len += 1
         return max_len
 
 
