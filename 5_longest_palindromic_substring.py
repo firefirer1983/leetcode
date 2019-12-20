@@ -42,22 +42,16 @@ class Solution:
     @staticmethod
     def check_even(pos, s):
         offset = 0
-        print("check even: pos:%u" % pos)
         while True:
-
             if s[pos - offset - 1] != s[pos + offset]:
                 return s[pos - offset : pos + offset]
 
-            if (pos - offset - 1) < 0 or (pos + offset) > len(s) - 1:
-                print(
-                    "OUT! pos:%u offset:%u %s vs %s"
-                    % (pos, offset, (pos - offset - 1), (pos + offset))
-                )
+            if (pos - offset - 1) < 0 or (pos + offset + 1) > len(s) - 1:
                 break
 
             offset += 1
 
-        return s[pos - offset : pos + offset]
+        return s[pos - offset - 1 : pos + offset + 1]
 
 
 if __name__ == "__main__":
