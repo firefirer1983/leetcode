@@ -4,62 +4,58 @@
 class Solution:
     def longestPalindrome(self, s: str) -> str:
         length = len(s)
-        center = length / 2
+        if length == 1:
+            return s
         longest = ""
-        longest_len = 0
-        for pos in range(length):
-            if pos < center:
-                wing_size = len(s[:pos])
-                odd_string = s[: pos + wing_size + 1]
-                even_string = s[: pos + wing_size]
-            else:
-                wing_size = len(s[pos:])
-                odd_string = s[pos - wing_size :]
-                even_string = s[pos - wing_size :]
+        print("check:", s)
 
-            odd_res = self.check_odd(odd_string)
-            odd_len = len(odd_res)
-            if odd_len > longest_len:
-                longest, longest_len = odd_res, odd_len
+        for pos in range(1, length):
+            # res = self.check_odd(pos, s)
+            # if len(res) > len(longest):
+            #     longest = str(res)
 
-            even_res = self.check_even(even_string)
-            even_len = len(even_res)
-            if even_len > longest_len:
-                longest, longest_len = even_res, even_len
+            res = self.check_even(pos, s)
+            if len(res) > len(longest):
+                longest = str(res)
 
         return longest
 
     @staticmethod
-    def check_odd(test_str):
-        center = int(len(test_str) / 2)
-        offset = 0
-        while offset <= center:
-            if test_str[center - offset] != test_str[center + offset]:
-                offset -= 1
-                return test_str[center - offset: center + offset]
-            else:
-                offset += 1
-        return test_str
-    
-    @staticmethod
-    def check_even(test_str):
-        center = int(len(test_str) / 2)
-        offset = 0
-        while offset <= center:
-            if test_str[center - offset] != test_str[center]:
-                if offset == 0:
-                    return ""
-                else:
-                    offset -= 1
-                return test_str[center - offset: center + offset]
-            else:
-                offset += 1
-        return test_str
+    def check_odd(pos, s):
 
+        if pos == len(s) - 1:
+            return ""
+
+        offset = 1
+        while True:
+
+            if s[pos - offset] != s[pos + offset]:
+                return s[pos - offset + 1 : pos + offset]
+
+            if pos - offset - 1 < 0 or pos + offset + 1 > len(s) - 1:
+                break
+
+            offset += 1
+
+        return s[pos - offset : pos + offset + 1]
+
+    @staticmethod
+    def check_even(pos, s):
+        offset = 0
+        while True:
+            if s[pos - offset - 1] != s[pos + offset]:
+                return s[pos - offset : pos + offset]
+
+            if (pos - offset - 1) < 0 or (pos + offset + 1) > len(s) - 1:
+                break
+
+            offset += 1
+
+        return s[pos - offset - 1 : pos + offset + 1]
 
 
 if __name__ == "__main__":
     sol = Solution()
     ts = "aaaa"
     ans = sol.longestPalindrome(ts)
-    print(ans)
+    print("final:", ans)
