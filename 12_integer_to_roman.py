@@ -12,9 +12,9 @@ class Solution:
         }
         weight = 1000
         ret = ""
-        while num > 0:
+        while weight > 0:
             unit = roman[weight]
-            r = num / weight
+            r = int(num / weight)
             if r == 0:
                 pass
             elif r <= 3:
@@ -25,7 +25,10 @@ class Solution:
                 ret += roman[weight * 5] + (r - 5) * unit
             else:
                 ret += (10 - r) * unit + roman[weight * 10]
-            weight = weight / 10
+            num -= r * weight
+            weight = int(weight / 10)
+
+        return ret
 
 
 if __name__ == "__main__":
